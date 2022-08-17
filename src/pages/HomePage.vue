@@ -1,16 +1,13 @@
 <template>
-  <div>
-    <template v-if="loading">
-      <ion-spinner></ion-spinner>
-    </template>
+  <ion-page>
     <main-layout page-title="All Collections">
       <collection-list :collections="collections"></collection-list>
     </main-layout>
-  </div>
+  </ion-page>
 </template>
 
 <script>
-import { IonSpinner } from "@ionic/vue";
+import { IonPage } from "@ionic/vue";
 import { search } from "ionicons/icons";
 import CollectionList from "../components/CollectionList.vue";
 import { getAllCollections } from "../services/api";
@@ -18,20 +15,18 @@ import { getAllCollections } from "../services/api";
 export default {
   components: {
     CollectionList,
-    IonSpinner,
+    IonPage,
   },
   data() {
-    return { search, loading: false, collections: [] };
+    return { search, collections: [] };
   },
   mounted() {
     this.getAllColls();
   },
   methods: {
     async getAllColls() {
-      this.loading = true;
       let resp = await getAllCollections();
       this.collections = resp;
-      this.loading = false;
     },
   },
 };

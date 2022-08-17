@@ -24,11 +24,11 @@
               <ion-icon slot="icon-only" :icon="search"></ion-icon>
             </ion-button>
           </ion-col>
-          <!-- <ion-col class="ion-text-center">
-            <ion-button fill="clear" color="dark" router-link="/home">
+          <ion-col class="ion-text-center">
+            <ion-button fill="clear" color="dark" router-link="/favourites">
               <ion-icon slot="icon-only" :icon="heart"></ion-icon>
             </ion-button>
-          </ion-col> -->
+          </ion-col>
         </ion-row>
       </ion-toolbar>
     </ion-footer>

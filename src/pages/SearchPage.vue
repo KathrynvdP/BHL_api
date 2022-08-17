@@ -4,8 +4,19 @@
       <ion-col>
         <ion-item>
           <ion-label>Search Category...</ion-label>
-          <ion-select v-model="category" mode="ios" @ionChange="($event) => { category = $event.detail.value; term = '', getAll(category, 'a')}">
-            <ion-select-option value="collection">Collection ID</ion-select-option>
+          <ion-select
+            v-model="category"
+            mode="ios"
+            @ionChange="
+              ($event) => {
+                category = $event.detail.value;
+                (term = ''), getAll(category, 'a');
+              }
+            "
+          >
+            <ion-select-option value="collection"
+              >Collection ID</ion-select-option
+            >
             <ion-select-option value="authorname">Author</ion-select-option>
             <ion-select-option value="title">Title</ion-select-option>
           </ion-select>
@@ -14,7 +25,15 @@
       <ion-col>
         <ion-item>
           <ion-label>Search Term...</ion-label>
-          <ion-input v-model="term" @ionChange="($event) => { term = $event.detail.value; getAll(category, term)}"></ion-input>
+          <ion-input
+            v-model="term"
+            @ionChange="
+              ($event) => {
+                term = $event.detail.value;
+                getAll(category, term);
+              }
+            "
+          ></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -57,19 +76,35 @@ export default {
   mounted() {
     const route = useRoute();
     const { id } = route.params;
-    console.log(id);
     this.category = "collection";
     this.term = id;
     this.getAll("collection", id);
+  },
+  computed: {
+    favourites() {
+      return this.$store.getters.favourites;
+    },
   },
   methods: {
     async getAll(category, term) {
       this.loading = true;
       let resp = await getAllBooks(category, term);
-      console.log(resp);
       this.books = resp;
+      if (this.favourites.length > 0) {
+        this.favourites.forEach((fave) => {
+          var ownerData = this.books.filter(function(book) {
+            return book.ItemID === fave.ItemID;
+          })[0];
+          if (ownerData) {
+            var index = this.books.findIndex(
+              (x) => x.ItemID == ownerData.ItemID
+            );
+            this.books[index].favourite = true;
+          }
+        });
+      }
       this.loading = false;
-    }
+    },
   },
 };
 </script>

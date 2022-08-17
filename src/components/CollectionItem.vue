@@ -36,6 +36,5 @@ export default {
     const router = useRouter();
     return { router };
   },
-  methods: {},
 };
 </script>
